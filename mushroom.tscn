@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7evtdgqr3euf"]
+
+[ext_resource type="Texture2D" uid="uid://cvie7xgcasuqj" path="res://Basic Grass Biom things 1.png" id="1_gvsd5"]
+[ext_resource type="Script" uid="uid://wktg1jpw8hou" path="res://mushroom.gd" id="1_ke5i0"]
+[ext_resource type="Material" uid="uid://s8m00vojj8ia" path="res://flash.tres" id="2_jg55k"]
+[ext_resource type="Script" uid="uid://q5oxv1ca228l" path="res://timer.gd" id="3_pl5ep"]
+[ext_resource type="Script" uid="uid://dmhwp435i31nt" path="res://circle_ui.gd" id="5_4gvq0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke5i0"]
+atlas = ExtResource("1_gvsd5")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pl5ep"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ke5i0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_gvsd5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D" groups=["mushrooms"]]
+script = ExtResource("1_ke5i0")
+
+[node name="HSlider" type="HSlider" parent="."]
+offset_left = -22.0
+offset_top = 28.0
+offset_right = 26.0
+offset_bottom = 45.0
+min_value = 20.0
+max_value = 200.0
+value = 20.0
+
+[node name="Timer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -18.0
+offset_top = -51.0
+offset_right = 22.0
+offset_bottom = -11.0
+script = ExtResource("3_pl5ep")
+radius = 8.0
+
+[node name="Circle" type="Node2D" parent="."]
+script = ExtResource("5_4gvq0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = ExtResource("2_jg55k")
+sprite_frames = SubResource("SpriteFrames_pl5ep")
+
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
