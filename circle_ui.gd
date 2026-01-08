@@ -19,7 +19,7 @@ func _draw() -> void:
 	var p: float = clamp (r / r_max, 0.0, 1.0)
 	p = 1.0 - pow(1.0 -p, 4.0)
 	var color = Color.WHITE
-	color.a = 0.2
+	color.a = 0.05
 	#draw_arc(Vector2.ZERO, r_max, 0.0, TAU, 64, color, 0.5, true)
 	fill_color.a = 0.7 - (r / r_max)
 	#draw_arc(Vector2.ZERO, r, 0.0, TAU, 64, color, 0.5, true)

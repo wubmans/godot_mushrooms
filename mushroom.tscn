@@ -28,6 +28,8 @@ animations = [{
 script = ExtResource("1_ke5i0")
 
 [node name="HSlider" type="HSlider" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.14901961)
 offset_left = -22.0
 offset_top = 28.0
 offset_right = 26.0
@@ -51,6 +53,7 @@ script = ExtResource("5_4gvq0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = ExtResource("2_jg55k")
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_pl5ep")
 
 [connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]

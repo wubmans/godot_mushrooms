@@ -4,9 +4,10 @@ extends Node2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var circle: Node2D = $Circle
 
+var health: float = 1000.0
 var timer: float = 0.0
 var circle_timer: float = 0.0
-var circle_timer_max : float = 0.4
+var circle_timer_max : float = 1.8
 var cooldown_time: float = 2.4
 var is_triggered: bool = false
 var has_triggered: bool = false
@@ -19,7 +20,7 @@ var triggered_timer: float = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	timer = randf_range(0.0, 5.0)
-	cooldown_time = randf_range(6.0, 20.0)
+	cooldown_time = randf_range(2.0, 10.0)
 	material = $AnimatedSprite2D.material
 	pass # Replace with function body.
 
@@ -67,10 +68,19 @@ func fire():
 		#is_triggered = false
 		
 	var strength = 3.0
-	var time = 0.2
+	var time = 0.05
 	var t := create_tween()
-	t.tween_property(animated_sprite_2d, "scale", Vector2.ONE * strength, time).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	t.tween_property(animated_sprite_2d, "scale", Vector2.ONE, time)
+	var s = animated_sprite_2d.scale
+	if s.length() > 2.0:
+		s = Vector2.ONE * 2.0
+	t.tween_property(animated_sprite_2d, "scale", s * strength, time).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(animated_sprite_2d, "scale", s, time)
+	
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for e in enemies:
+		if (e.body.global_position - global_position).length() < final_radius:
+			e.kill()
+	
 	
 	trigger()
 
@@ -104,3 +114,8 @@ func flash(color):
 	sprite_material.set_shader_parameter("flash", 1.0)
 	var flash_tween = create_tween()
 	flash_tween.tween_property(sprite_material, "shader_parameter/flash", 0.0, 0.2)
+
+func attack():
+	health -= 20
+	if health <= 0:
+		queue_free()
